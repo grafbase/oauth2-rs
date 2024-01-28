@@ -17,11 +17,13 @@ pub enum Error {
     Io(#[from] std::io::Error),
 }
 
+#[cfg(feature = "reqwest-blocking")]
 #[cfg(not(target_arch = "wasm32"))]
 pub use blocking::http_client;
 
 pub use async_client::async_http_client;
 
+#[cfg(feature = "reqwest-blocking")]
 #[cfg(not(target_arch = "wasm32"))]
 mod blocking {
     use super::super::{HttpRequest, HttpResponse};

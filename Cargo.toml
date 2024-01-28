@@ -20,20 +20,22 @@ pkce-plain = []
 native-tls = ["reqwest/native-tls"]
 rustls-tls = ["reqwest/rustls-tls"]
 timing-resistant-secret-traits = []
+reqwest = ["dep:reqwest"]
+reqwest-blocking = ["reqwest/blocking"]
 
 [dependencies]
 base64 = "0.13"
-thiserror = "1.0"
-http = "0.2"
+chrono = { version = "0.4", default-features = false, features = ["clock", "serde", "std", "wasmbind"] }
+http = "1"
 rand = "0.8"
-reqwest = { version = "0.11", optional = true, default-features = false, features = ["blocking"] }
+reqwest = { version = "0.11", optional = true, default-features = false }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+serde_path_to_error = "0.1.2"
 sha2 = "0.10"
+thiserror = "1.0"
 ureq = { version = "2", optional = true }
 url = { version = "2.1", features = ["serde"] }
-chrono = { version = "0.4", default-features = false, features = ["clock", "serde", "std", "wasmbind"] }
-serde_path_to_error = "0.1.2"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 getrandom = { version = "0.2", features = ["js"] }
@@ -48,3 +50,7 @@ uuid = { version = "0.8", features = ["v4"] }
 anyhow = "1.0"
 tokio = { version = "1.0", features = ["full"] }
 async-std = "1.6.3"
+
+[patch.crates-io]
+hyper-util = { git = "https://github.com/grafbase/hyper-util", rev = "c7acf8968d96a4408e952a097d93602d2e8ed01a" } # error-is-connect
+reqwest = { git = "https://github.com/grafbase/reqwest", rev = "c786d48a4aaf37dce07118e067b66ecb02f9390a" } # hyper-v1-and-wasm-from-parts-build-split
